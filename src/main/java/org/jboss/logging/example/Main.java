@@ -23,15 +23,13 @@
 package org.jboss.logging.example;
 
 import org.jboss.logging.Logger;
+import org.jboss.logging.Messages;
 import org.jboss.logging.translation.example.TrainInnerMessages;
 import org.jboss.logging.translation.example.TrainsSpotterLog;
 
 import javax.transaction.xa.XAException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
-import java.io.StringWriter;
 import java.util.Locale;
 
 /**
@@ -75,15 +73,45 @@ public class Main {
 
     public static void testLocale(final Locale locale) throws IOException {
         final TrainsSpotterLog tsLogger = Logger.getMessageLogger(TrainsSpotterLog.class, Main.class.getPackage().getName(), locale);
+        DefaultLogger.LOGGER.separator();
         tsLogger.nbDieselTrains(8);
+        DefaultLogger.LOGGER.separator();
         tsLogger.testDebug(Main.class);
+        DefaultLogger.LOGGER.separator();
         Logger.getLogger(Main.class).info(TrainInnerMessages.MESSAGES.noDieselTrains("XYZ"));
+        DefaultLogger.LOGGER.separator();
         ExtendedLogger.EXTENDED_LOGGER.invalidValue();
+        DefaultLogger.LOGGER.separator();
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         out.write("Test out".getBytes());
         ErrorLogger.ERROR_LOGGER.error(out);
+        DefaultLogger.LOGGER.separator();
         ExtendedBasicLogger.LOGGER.debugf("Line test, should be 85.");
+        DefaultLogger.LOGGER.separator();
         ExtendedBasicLogger.LOGGER.infof("Line test, should be 86.");
+        DefaultLogger.LOGGER.separator();
         ExtendedBasicLogger.LOGGER.multiTest(Main.class, "Main.class is being used.", 87);
+        DefaultLogger.LOGGER.separator();
+        ExtendedBasicLogger.LOGGER.invalidClassName(Main.class);
+        DefaultLogger.LOGGER.separator();
+        ExtendedBasicLogger.LOGGER.nullParameterValue("lineNumber");
+        DefaultLogger.LOGGER.separator();
+        ExtendedBasicLogger.LOGGER.releaseVersion("3.0");
+        DefaultLogger.LOGGER.separator();
+        DefaultLogger.LOGGER.meltDown(new  NullPointerException(), "Ice");
+        DefaultLogger.LOGGER.separator();
+        try{
+            throw DefaultLogger.LOGGER.illegalArgument();
+        }catch (Exception e){
+            ExtendedBasicLogger.LOGGER.error(e);
+        }
+        DefaultLogger.LOGGER.separator();
+
+
+        ExceptionBundle exceptionBundle = Messages.getBundle(ExceptionBundle.class);
+        XAException xaException = exceptionBundle.invalidTransaction(14);
+        ExtendedBasicLogger.LOGGER.log(Logger.Level.FATAL, xaException);
+        ExtendedBasicLogger.LOGGER.log(Logger.Level.FATAL, xaException.errorCode);
+
     }
 }

@@ -26,6 +26,7 @@ import org.jboss.logging.Cause;
 import org.jboss.logging.Field;
 import org.jboss.logging.FormatWith;
 import org.jboss.logging.LogMessage;
+import org.jboss.logging.Logger;
 import org.jboss.logging.Logger.Level;
 import org.jboss.logging.Message;
 import org.jboss.logging.MessageBundle;
@@ -46,7 +47,6 @@ import java.util.Formatter;
  */
 @MessageBundle(projectCode = "LOGB")
 interface ExceptionBundle {
-
     @Message(id = 12, value = "Could not write to file %s.")
     IOException writeError(@Cause Throwable cause, File file) throws RuntimeException;
 

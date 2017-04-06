@@ -79,4 +79,8 @@ interface DefaultLogger {
 
     @Message(id = 99, value = "An illegal argument was found.")
     IllegalArgumentException illegalArgument();
+
+    @LogMessage
+    @Message(id = 999999, value = "------------------------------------------")
+    void separator();
 }
